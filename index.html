@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Harrow Town CC — The Chronicle</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy-900: #070e1a;
+    --navy-800: #0d1829;
+    --navy-700: #132038;
+    --navy-600: #182845;
+    --gold: #c9a84c;
+    --gold-bright: #e8c85e;
+    --gold-dim: #9a7d33;
+    --cream: #f2edd8;
+    --cream-dim: #b8b19a;
+    --green: #34d278;
+    --red: #e8524a;
+    --amber: #e8a84a;
+    --blue: #4a9de8;
+    --text-primary: #ddd8c8;
+    --text-secondary: #8a8474;
+    --text-muted: #5a5548;
+    --border: rgba(201,168,76,0.18);
+    --hairline: rgba(221,216,200,0.18);
+
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans:  'DM Sans', system-ui, sans-serif;
+    --mono:  'IBM Plex Mono', monospace;
+
+    --pad-x: 140px;
+    --pad-y: 130px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    background: #000;
+    font-family: var(--sans);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  /* SLIDE BASE */
+  deck-stage > section {
+    background: var(--navy-900);
+    color: var(--text-primary);
+    position: relative;
+    overflow: hidden;
+  }
+  deck-stage > section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 12%, rgba(201,168,76,0.05), transparent 55%),
+      radial-gradient(ellipse 50% 50% at 15% 90%, rgba(74,157,232,0.03), transparent 55%);
+    pointer-events: none;
+  }
+  /* Editorial paper grain — very subtle */
+  deck-stage > section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(255,255,255,0.008) 3px, rgba(255,255,255,0.008) 4px);
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+  .inner {
+    position: relative;
+    z-index: 1;
+    width: 100%; height: 100%;
+    padding: var(--pad-y) var(--pad-x);
+  }
+
+  /* MASTHEAD — cloned into every slide so it scales with the deck-stage canvas */
+  .masthead {
+    position: absolute;
+    top: 56px;
+    left: 80px;
+    right: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--hairline);
+    z-index: 60;
+    pointer-events: none;
+  }
+  .mast-left {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .mast-badge {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 18px rgba(201,168,76,0.20);
+  }
+  .mast-badge img { width: 100%; height: 100%; object-fit: cover; }
+  .mast-title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 32px;
+    color: var(--cream);
+    letter-spacing: 0.5px;
+    line-height: 1.05;
+    margin-bottom: 4px;
+  }
+  .mast-edition {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .mast-right {
+    text-align: right;
+  }
+  .mast-time {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 32px;
+    color: var(--cream);
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  .mast-date {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  /* Common type */
+  .kicker {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .kicker .dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    margin: 0 14px 4px 0;
+    vertical-align: middle;
+  }
+  .deck-headline {
+    font-family: var(--serif);
+    font-weight: 900;
+    color: var(--cream);
+    letter-spacing: -1px;
+    line-height: 0.95;
+  }
+  .deck-headline em {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .standfirst {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.35;
+    letter-spacing: 0.2px;
+  }
+  .byline {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--text-muted);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  /* ============ 01 — COVER ============ */
+  .cover { position: relative; overflow: hidden; }
+  .cover-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .cover-bg-img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    filter: grayscale(0.4) sepia(0.18) brightness(0.85) contrast(1.05);
+    mix-blend-mode: screen;
+    animation: coverBurst 30s infinite;
+    transform: scale(1);
+    will-change: transform, opacity;
+  }
+  .cover-bg-img:nth-child(1) { animation-delay:  0s; }
+  .cover-bg-img:nth-child(2) { animation-delay:  5s; }
+  .cover-bg-img:nth-child(3) { animation-delay: 10s; }
+  .cover-bg-img:nth-child(4) { animation-delay: 15s; }
+  .cover-bg-img:nth-child(5) { animation-delay: 20s; }
+  .cover-bg-img:nth-child(6) { animation-delay: 25s; }
+  @keyframes coverBurst {
+    0%   { opacity: 0;    transform: scale(0.92); }
+    8%   { opacity: 0.42; }
+    14%  { opacity: 0.42; transform: scale(1.04); }
+    20%  { opacity: 0;    transform: scale(1.10); }
+    100% { opacity: 0;    transform: scale(1.10); }
+  }
+  .cover-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at center, rgba(20,28,48,0) 0%, rgba(20,28,48,0.45) 70%, rgba(20,28,48,0.75) 100%),
+      linear-gradient(180deg, rgba(20,28,48,0.20) 0%, rgba(20,28,48,0.20) 100%);
+    pointer-events: none;
+  }
+  .cover .inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 200px;
+  }
+  .cover-eyebrow {
+    font-family: var(--mono);
+    font-size: 26px;
+    color: var(--gold);
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    margin-bottom: 56px;
+  }
+  .cover-title {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 220px;
+    color: var(--cream);
+    line-height: 0.88;
+    letter-spacing: -4px;
+  }
+  .cover-title em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .cover-rule {
+    width: 280px;
+    height: 1px;
+    background: var(--gold);
+    margin: 64px auto 32px;
+    transform-origin: center;
+    animation: ruleGrow 1.6s cubic-bezier(0.4,0,0.2,1) both;
+  }
+  @keyframes ruleGrow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+  .cover-tag {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 38px;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+  }
+  .cover-issue {
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--text-muted);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+  }
+
+  /* ============ 02 — CONTENTS / IN THIS ISSUE ============ */
+  .toc .inner {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 120px;
+    padding-top: 200px;
+    align-items: center;
+  }
+  .toc-left .kicker { margin-bottom: 40px; }
+  .toc-left .deck-headline { font-size: 140px; }
+  .toc-left .standfirst {
+    font-size: 32px;
+    margin-top: 48px;
+    max-width: 520px;
+  }
+  .toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .toc-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    align-items: baseline;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .toc-row:first-child { border-top: 1px solid var(--hairline); }
+  .toc-num {
+    font-family: var(--mono);
+    font-size: 26px;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+  .toc-title {
+    font-family: var(--serif);
+    font-size: 36px;
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .toc-title em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .toc-page {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+  }
+
+  /* ============ 03 — MATCHWEEK SPREAD ============ */
+  .matchweek .inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    padding-top: 200px;
+    align-items: center;
+  }
+  .mw-left .kicker { margin-bottom: 36px; }
+  .mw-num {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 240px;
+    line-height: 0.88;
+    color: var(--gold);
+    letter-spacing: -5px;
+  }
+  .mw-num em {
+    font-style: italic;
+    color: var(--cream);
+    font-weight: 700;
+  }
+  .mw-date {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 36px;
+    color: var(--text-secondary);
+    margin-top: 28px;
+    letter-spacing: 0.5px;
+  }
+  .mw-card-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+  }
+  .mw-row {
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    align-items: center;
+    padding: 26px 8px;
+    gap: 24px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .mw-row:last-child { border-bottom: none; }
+  .mw-xi {
+    font-family: var(--serif);
+    font-style: italic;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 38px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+  .mw-vs {
+    font-family: var(--serif);
+    font-size: 36px;
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .mw-vs span {
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 400;
+    margin-right: 12px;
+  }
+  .mw-res {
+    font-family: var(--mono);
+    font-size: 24px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border: 1px solid;
+  }
+  .mw-res.won { color: var(--green); border-color: rgba(52,210,120,0.4); }
+  .mw-res.lost { color: var(--red); border-color: rgba(232,82,74,0.4); }
+  .mw-res.draw { color: var(--amber); border-color: rgba(232,168,74,0.4); }
+
+  /* ============ 04-07 — POTW EDITORIAL FEATURE ============ */
+  .feature .inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 100px;
+    padding-top: 200px;
+    align-items: center;
+  }
+  .feat-left { display: flex; flex-direction: column; }
+  .feat-kicker {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .feat-kicker .xi-mark {
+    color: var(--cream);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    letter-spacing: 1px;
+    text-transform: none;
+    margin-left: 10px;
+  }
+  .feat-headline {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 130px;
+    color: var(--cream);
+    line-height: 0.92;
+    letter-spacing: -2px;
+  }
+  .feat-headline em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .feat-standfirst {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 34px;
+    color: var(--text-secondary);
+    line-height: 1.35;
+    margin-top: 44px;
+    max-width: 600px;
+  }
+  .feat-byline {
+    margin-top: 56px;
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--text-muted);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .feat-byline span { color: var(--gold); }
+
+  .feat-right {
+    border-left: 1px solid var(--hairline);
+    padding-left: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .pts-block {
+    display: flex;
+    align-items: baseline;
+    gap: 28px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .pts-num {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 240px;
+    color: var(--gold);
+    line-height: 0.85;
+    letter-spacing: -4px;
+  }
+  .pts-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .pts-meta .label {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold-dim);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+  }
+  .pts-meta .res-tag {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 38px;
+    color: var(--cream);
+  }
+  .pts-meta .res-tag.lost { color: var(--red); }
+  .pts-meta .res-tag.draw { color: var(--amber); }
+
+  .stat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .stat-item {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 20px;
+    align-items: baseline;
+    padding-bottom: 14px;
+    border-bottom: 1px dotted var(--hairline);
+  }
+  .stat-item .cat {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .stat-item .nm {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .stat-item .nm small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-top: 4px;
+    font-weight: 400;
+  }
+  .stat-item .pt {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 44px;
+    color: var(--gold);
+  }
+
+  /* ============ 08-10 — LEADERBOARD AS LEAGUE TABLE ============ */
+  .leaderboard .inner {
+    display: flex;
+    flex-direction: column;
+    padding-top: 180px;
+    padding-bottom: 80px;
+  }
+  .lb-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--gold);
+    margin-bottom: 24px;
+  }
+  .lb-head .left {}
+  .lb-head .kicker { margin-bottom: 14px; }
+  .lb-title {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 90px;
+    color: var(--cream);
+    line-height: 0.95;
+    letter-spacing: -2px;
+  }
+  .lb-title em {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .lb-meta {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--text-muted);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .lb-meta strong {
+    display: block;
+    color: var(--gold);
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: 6px;
+    margin-bottom: 6px;
+  }
+  .lb-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .lb-table thead th {
+    padding: 16px 12px 18px;
+    font-family: var(--mono);
+    font-size: 24px;
+    letter-spacing: 4px;
+    color: var(--gold-dim);
+    text-align: left;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--hairline);
+    font-weight: 500;
+  }
+  .lb-table thead th.r { text-align: right; }
+  .lb-table tbody tr {
+    border-bottom: 1px solid var(--hairline);
+  }
+  .lb-table tbody td {
+    padding: 16px 12px;
+    vertical-align: baseline;
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--cream);
+  }
+  .lb-table tbody td.r {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--cream-dim);
+    font-weight: 400;
+  }
+  .lb-table tbody td.pts {
+    text-align: right;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 36px;
+    color: var(--gold);
+  }
+  .lb-table .rank {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 38px;
+    color: var(--text-muted);
+    width: 70px;
+    line-height: 1;
+  }
+  .lb-table .rank.g1 { color: var(--gold-bright); }
+  .lb-table .rank.g2 { color: #c0c0c0; }
+  .lb-table .rank.g3 { color: #cd7f32; }
+  .lb-table .nm {
+    font-weight: 500;
+  }
+  .lb-table .tm {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-left: 16px;
+  }
+
+  /* ============ 11 — JUNIORS EDITORIAL ============ */
+  .juniors-ed .inner {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 100px;
+    padding-top: 180px;
+    padding-bottom: 80px;
+    align-items: center;
+  }
+  .jed-left .kicker { margin-bottom: 32px; }
+  .jed-headline {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 130px;
+    color: var(--cream);
+    line-height: 0.9;
+    letter-spacing: -3px;
+  }
+  .jed-headline em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .jed-body {
+    font-family: var(--serif);
+    font-size: 26px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-top: 32px;
+    max-width: 660px;
+  }
+  /* Drop cap */
+  .jed-body::first-letter {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 90px;
+    color: var(--gold);
+    float: left;
+    line-height: 0.9;
+    margin: 6px 14px -6px 0;
+  }
+  .jed-cta {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-top: 36px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gold);
+    display: inline-block;
+  }
+  .jed-card {
+    background: var(--navy-800);
+    border: 1px solid var(--border);
+    padding: 56px 56px 48px;
+    position: relative;
+  }
+  .jed-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px;
+    height: 4px;
+    background: var(--gold);
+  }
+  .jed-card .lbl {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold-dim);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .jed-card .day {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 76px;
+    color: var(--cream);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .jed-card .time {
+    font-family: var(--mono);
+    font-size: 32px;
+    color: var(--gold);
+    margin-top: 14px;
+    letter-spacing: 3px;
+  }
+  .jed-card .div {
+    height: 1px;
+    background: var(--hairline);
+    margin: 36px 0;
+  }
+  .jed-card .ages {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .jed-card .age {
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--gold);
+  }
+  .jed-card .where {
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--text-secondary);
+    margin-top: 32px;
+    line-height: 1.4;
+  }
+
+  /* ============ 12 — VISIT ============ */
+  .visit-ed .inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 170px;
+    text-align: center;
+  }
+  .ve-eyebrow {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+  .ve-headline {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 150px;
+    color: var(--cream);
+    line-height: 0.95;
+    letter-spacing: -3px;
+  }
+  .ve-headline em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .ve-rule {
+    width: 240px;
+    height: 1px;
+    background: var(--gold);
+    margin: 40px auto 40px;
+  }
+  .ve-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 80px;
+    text-align: left;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  .ve-col h4 {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--gold);
+    font-weight: 500;
+  }
+  .ve-col .line {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--cream);
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+  .ve-col .line.muted {
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 26px;
+  }
+
+  /* ============ 12.5 — SAFETY ============ */
+  .safety-ed .inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 170px 140px 80px;
+    align-items: center;
+  }
+  .sa-kicker { margin-bottom: 22px; }
+  .sa-headline {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 110px;
+    color: var(--cream);
+    line-height: 0.95;
+    letter-spacing: -2px;
+    text-align: center;
+  }
+  .sa-headline em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .sa-standfirst {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 30px;
+    color: var(--text-secondary);
+    margin-top: 18px;
+    margin-bottom: 50px;
+    text-align: center;
+  }
+
+  /* Hospital banner */
+  .sa-hospital {
+    width: 100%;
+    max-width: 1500px;
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(232,82,74,0.08), transparent 60%);
+    padding: 36px 56px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 56px;
+    position: relative;
+  }
+  .sa-hospital::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 5px; height: 100%;
+    background: var(--red, #e8524a);
+  }
+  .sa-hospital .lbl {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--red, #e8524a);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .sa-hospital .name {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 56px;
+    color: var(--cream);
+    letter-spacing: -1px;
+    line-height: 1.05;
+  }
+  .sa-hospital .name small {
+    display: block;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 26px;
+    color: var(--text-secondary);
+    letter-spacing: 0;
+    margin-top: 6px;
+  }
+  .sa-hospital .tel {
+    font-family: var(--mono);
+    font-size: 32px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-align: right;
+    line-height: 1.3;
+  }
+  .sa-hospital .tel em {
+    display: block;
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 24px;
+    color: var(--text-secondary);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  /* Officer / first-aid grid */
+  .sa-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    width: 100%;
+    max-width: 1500px;
+    margin-top: 36px;
+    border-top: 1px solid var(--hairline);
+    border-left: 1px solid var(--hairline);
+  }
+  .sa-card {
+    padding: 32px 30px;
+    border-right: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    min-height: 200px;
+    position: relative;
+  }
+  .sa-card .role {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .sa-card .person {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 44px;
+    color: var(--cream);
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+  .sa-card .detail {
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--text-secondary);
+    line-height: 1.35;
+    margin-top: auto;
+  }
+  .sa-card .detail em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .sponsors-ed .inner {
+    display: flex;
+    flex-direction: column;
+    padding-top: 200px;
+    align-items: center;
+  }
+  .se-kicker { margin-bottom: 22px; }
+  .se-headline {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 110px;
+    color: var(--cream);
+    line-height: 0.95;
+    letter-spacing: -2px;
+    text-align: center;
+  }
+  .se-headline em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .se-standfirst {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 30px;
+    color: var(--text-secondary);
+    margin-top: 18px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  /* Headline sponsor card */
+  .se-headliner {
+    width: 100%;
+    max-width: 1500px;
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(201,168,76,0.06), transparent 60%);
+    padding: 36px 56px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 56px;
+    position: relative;
+  }
+  .se-headliner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 5px; height: 100%;
+    background: var(--gold);
+  }
+  .se-headliner .lbl {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .se-headliner .name {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 64px;
+    color: var(--cream);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .se-headliner .since {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--text-secondary);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.4;
+  }
+  .se-headliner .since em {
+    font-style: italic;
+    color: var(--gold);
+    font-family: var(--serif);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 28px;
+    display: block;
+  }
+
+  /* Opportunities section */
+  .se-divider {
+    margin: 36px 0 22px;
+    width: 100%;
+    max-width: 1500px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 30px;
+  }
+  .se-divider .rule {
+    height: 1px;
+    background: var(--hairline);
+  }
+  .se-divider .label {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold-dim);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .se-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    width: 100%;
+    max-width: 1500px;
+    border-top: 1px solid var(--hairline);
+    border-left: 1px solid var(--hairline);
+  }
+  .se-card {
+    padding: 28px 28px;
+    border-right: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    min-height: 210px;
+    position: relative;
+  }
+  .se-card .num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 32px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .se-card .name {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 40px;
+    color: var(--cream);
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+  .se-card .desc {
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--text-secondary);
+    line-height: 1.35;
+  }
+  .se-card .kind {
+    margin-top: auto;
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .se-cta {
+    margin-top: 28px;
+    font-family: var(--serif);
+    font-size: 26px;
+    color: var(--cream);
+    text-align: center;
+    line-height: 1.5;
+  }
+  .se-cta strong {
+    font-family: var(--mono);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+  .se-thanks {
+    margin-top: 12px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 26px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  /* ============ 14 — OFFICIALS ============ */
+  .officials-ed .inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 170px 140px 60px;
+  }
+  .of-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .of-kicker .dot {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  .of-headline {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 108px;
+    line-height: 0.9;
+    color: var(--cream);
+    letter-spacing: -3px;
+    margin: 0 0 20px;
+  }
+  .of-headline em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .of-standfirst {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--text-secondary);
+    margin: 0 0 32px;
+  }
+  .of-divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 1100px;
+    margin: 4px auto 16px;
+  }
+  .of-divider .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--hairline);
+  }
+  .of-divider .label {
+    font-family: var(--mono);
+    font-size: 26px;
+    color: var(--gold);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+  .of-grid {
+    display: grid;
+    gap: 20px;
+    width: 1240px;
+    margin-bottom: 24px;
+  }
+  .of-grid-2 { grid-template-columns: repeat(2, 1fr); width: 1000px; }
+  .of-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .of-card {
+    background: rgba(255,247,232,0.03);
+    border: 1px solid var(--hairline);
+    padding: 24px 24px;
+    text-align: center;
+  }
+  .of-card .role {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    white-space: nowrap;
+  }
+  .of-card .name {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 42px;
+    color: var(--cream);
+    letter-spacing: -1px;
+    line-height: 1.05;
+  }
+
+  /* ============ ENTRANCE ANIMATIONS ============ */
+  . { animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) both; }
+  . { animation: fadeUp 0.95s 0.18s cubic-bezier(0.4,0,0.2,1) both; }
+  . { animation: fadeUp 1.0s 0.36s cubic-bezier(0.4,0,0.2,1) both; }
+  . { animation: fadeUp 1.0s 0.54s cubic-bezier(0.4,0,0.2,1) both; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  . {
+    animation: blurIn 1.2s cubic-bezier(0.4,0,0.2,1) both;
+  }
+  @keyframes blurIn {
+    from { opacity: 0; filter: blur(14px); transform: scale(1.02); }
+    to   { opacity: 1; filter: blur(0); transform: scale(1); }
+  }
+  tbody tr { animation: rowIn 0.55s cubic-bezier(0.4,0,0.2,1) both; }
+  tbody tr:nth-child(1) { animation-delay: 0.10s; }
+  tbody tr:nth-child(2) { animation-delay: 0.18s; }
+  tbody tr:nth-child(3) { animation-delay: 0.26s; }
+  tbody tr:nth-child(4) { animation-delay: 0.34s; }
+  tbody tr:nth-child(5) { animation-delay: 0.42s; }
+  tbody tr:nth-child(6) { animation-delay: 0.50s; }
+  tbody tr:nth-child(7) { animation-delay: 0.58s; }
+  @keyframes rowIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- 01 — COVER -->
+  <section data-label="01 Cover" class="cover">
+    <div class="cover-bg" aria-hidden="true">
+      <div class="cover-bg-img" style="background-image:url('assets/cover/team-2024.jpg')"></div>
+      <div class="cover-bg-img" style="background-image:url('assets/cover/1xi-2023.jpg')"></div>
+      <div class="cover-bg-img" style="background-image:url('assets/cover/team-1948-compton.jpg')"></div>
+      <div class="cover-bg-img" style="background-image:url('assets/cover/team-2022.jpg')"></div>
+      <div class="cover-bg-img" style="background-image:url('assets/cover/team-1937.jpg')"></div>
+      <div class="cover-bg-img" style="background-image:url('assets/cover/team-1914.jpg')"></div>
+    </div>
+    <div class="inner">
+      <div class="cover-eyebrow">Welcome to the 2026 Season</div>
+      <div class="cover-title">Harrow Town<br><em>Cricket Club.</em></div>
+      <div class="cover-rule"></div>
+      <div class="cover-tag">A new season begins &mdash; Saturday, 9 May 2026 &middot; 12:30pm</div>
+    </div>
+  </section>
+
+  <!-- 02 — IN THIS ISSUE -->
+  <section data-label="02 Contents" class="toc">
+    <div class="inner">
+      <div class="toc-left">
+        <div class="kicker"><span class="dot"></span>This Week</div>
+        <h2 class="deck-headline">A new<br>season <em>begins</em>.</h2>
+        <p class="standfirst">Opening fixtures, the junior section returns and a warm welcome from the clubhouse. Performances of the week will return next edition.</p>
+      </div>
+      <div class="toc-list">
+        <div class="toc-row">
+          <span class="toc-num">01</span>
+          <span class="toc-title">Opening <em>Saturday</em></span>
+        </div>
+        <div class="toc-row">
+          <span class="toc-num">02</span>
+          <span class="toc-title">The <em>Junior</em> Section</span>
+        </div>
+        <div class="toc-row">
+          <span class="toc-num">03</span>
+          <span class="toc-title">Visit &amp; <em>contact</em></span>
+        </div>
+        <div class="toc-row">
+          <span class="toc-num">04</span>
+          <span class="toc-title">Our <em>supporters</em></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — OPENING SATURDAY (FIXTURES) -->
+  <section data-label="03 Opening Saturday" class="matchweek">
+    <div class="inner">
+      <div class="mw-left">
+        <div class="kicker"><span class="dot"></span>Saturday Cricket</div>
+        <div class="mw-num">Opening<br><em>Day.</em></div>
+        <div class="mw-date">Saturday, 9 May 2026 &middot; 12:30pm</div>
+      </div>
+      <div class="mw-card-stack">
+        <div class="mw-row">
+          <span class="mw-xi">1st XI</span>
+          <span class="mw-vs"><span>vs</span>Kay Plus CC</span>
+          <span class="mw-res" style="color:var(--gold); border-color: rgba(201,168,76,0.4);">Home</span>
+        </div>
+        <div class="mw-row">
+          <span class="mw-xi">2nd XI</span>
+          <span class="mw-vs"><span>vs</span>Stoke Newington CC</span>
+          <span class="mw-res" style="color:var(--cream-dim); border-color: var(--hairline);">Away</span>
+        </div>
+        <div class="mw-row">
+          <span class="mw-xi">3rd XI</span>
+          <span class="mw-vs"><span>vs</span>Harrow CC</span>
+          <span class="mw-res" style="color:var(--gold); border-color: rgba(201,168,76,0.4);">Home</span>
+        </div>
+        <div class="mw-row">
+          <span class="mw-xi">4th XI</span>
+          <span class="mw-vs"><span>vs</span>Kay Plus CC</span>
+          <span class="mw-res" style="color:var(--cream-dim); border-color: var(--hairline);">Away</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- 11 — JUNIORS -->
+  <section data-label="11 Juniors" class="juniors-ed">
+    <div class="inner">
+      <div class="jed-left">
+        <div class="kicker"><span class="dot"></span>The Junior Section</div>
+        <h2 class="jed-headline">For the <em>juniors</em><br>of the club.</h2>
+        <p class="jed-body">Three age groups out on the square this season &mdash; U10, U11 and U13. Sunday-morning coaching for all abilities, weekday evening fixtures and a club happy to welcome newcomers. For more, write to <span style="color:var(--gold); white-space:nowrap;">harrowtowncc@gmail.com</span>.</p>
+        <div class="jed-cta">All Welcome &middot; New Players Encouraged</div>
+      </div>
+      <div class="jed-card">
+        <div class="lbl">Sunday Coaching</div>
+        <div class="day">Sunday<br>Mornings.</div>
+        <div class="time">09:30 &mdash; 11:00</div>
+        <div class="div"></div>
+        <div class="lbl">Match Days</div>
+        <div class="day" style="font-size: 56px; line-height: 0.95;">Sundays 10:00<br><span style="color:var(--cream-dim);">&amp; weekdays 18:00</span></div>
+        <div class="div"></div>
+        <div class="lbl">Age Groups <span style="color:var(--cream-dim); margin-left:10px;">2026</span></div>
+        <div class="ages">
+          <div class="age">U10</div>
+          <div class="age">U11</div>
+          <div class="age">U13</div>
+        </div>
+        <div class="where">Harrow Town Sports Club, Rayners Lane.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 — VISIT -->
+  <section data-label="12 Visit" class="visit-ed">
+    <div class="inner">
+      <h2 class="ve-headline">Come for the <em>cricket</em>,<br>stay for the <em>banter</em>.</h2>
+      <div class="ve-rule"></div>
+      <div class="ve-cols">
+        <div class="ve-col">
+          <h4>The Ground</h4>
+          <div class="line">Harrow Town Sports Club</div>
+          <div class="line">Rayners Lane</div>
+          <div class="line muted">HA2 9TY</div>
+        </div>
+        <div class="ve-col">
+          <h4>Senior Cricket</h4>
+          <div class="line">harrowtowncc@gmail.com</div>
+          <div class="line muted">Match days &middot; Saturdays, 1:00pm</div>
+          <div class="line muted">Senior training &middot; Wednesdays, 6:00pm</div>
+        </div>
+        <div class="ve-col">
+          <h4>Junior Section</h4>
+          <div class="line">harrowtowncc@gmail.com</div>
+          <div class="line muted">Sunday coaching &middot; 9:30 &mdash; 11:00am</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12.5 — SAFETY -->
+  <section data-label="12.5 Safety" class="safety-ed">
+    <div class="inner">
+      <div class="kicker sa-kicker"><span class="dot"></span>Safety &amp; Welfare</div>
+      <h2 class="sa-headline">In case of <em>emergency</em>.</h2>
+      <p class="sa-standfirst">Look after one another &mdash; on the field and off it.</p>
+
+      <div class="sa-hospital">
+        <div class="lbl">Nearest<br>Hospital</div>
+        <div class="name">Northwick Park Hospital<small>Watford Road, London Borough of Brent &middot; HA1 3UJ</small></div>
+        <div class="tel"><em>Switchboard</em>020 8864 3232</div>
+      </div>
+
+      <div class="sa-grid">
+        <div class="sa-card">
+          <div class="role">Safeguarding Officer</div>
+          <div class="person">Devak Bakhai</div>
+          <div class="detail">Concerns relating to children, juniors or vulnerable adults.</div>
+        </div>
+        <div class="sa-card">
+          <div class="role">Welfare Officer</div>
+          <div class="person">Mohsin Shafi</div>
+          <div class="detail">Player welfare, conduct and pastoral matters.</div>
+        </div>
+        <div class="sa-card">
+          <div class="role">First Aid</div>
+          <div class="person">On Site</div>
+          <div class="detail">Kits located <em>behind the bar</em> and <em>in the kitchen</em>. Dial 999 in an emergency.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 — SPONSORS -->
+  <section data-label="13 Sponsors" class="sponsors-ed">
+    <div class="inner">
+      <h2 class="se-headline">Our <em>sponsors</em>.</h2>
+      <p class="se-standfirst">Helping us play the game we love.</p>
+
+      <div class="se-headliner">
+        <div class="lbl">Club<br>Sponsor</div>
+        <div class="name">London Diamonds</div>
+        <div class="since"><em>Season 2026</em>With Our Thanks</div>
+      </div>
+
+      <div class="se-divider">
+        <div class="rule"></div>
+        <div class="label">Sponsorship Opportunities</div>
+        <div class="rule"></div>
+      </div>
+
+      <div class="se-grid">
+        <div class="se-card">
+          <div class="num">i.</div>
+          <div class="name">Match Ball</div>
+          <div class="desc">Put your name on the new ball &mdash; on scorecards, social posts and the boundary board for the day.</div>
+          <div class="kind">Per Fixture</div>
+        </div>
+        <div class="se-card">
+          <div class="num">ii.</div>
+          <div class="name">Player of the Season</div>
+          <div class="desc">Sponsor a senior or junior player. Your name travels with theirs across every match report and award.</div>
+          <div class="kind">Per Season</div>
+        </div>
+        <div class="se-card">
+          <div class="num">iii.</div>
+          <div class="name">Match Day</div>
+          <div class="desc">Host a Saturday at Rayners Lane &mdash; ground signage, pavilion presence and tea-interval recognition.</div>
+          <div class="kind">Per Match Day</div>
+        </div>
+      </div>
+
+      <div class="se-cta">
+        Become a sponsor &mdash; write to <strong>HARROWTOWNCC@GMAIL.COM</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 — OFFICIALS -->
+  <section data-label="14 Officials" class="officials-ed">
+    <div class="inner">
+      <div class="of-kicker"><span class="dot"></span>Club Officials &mdash; Season 2026</div>
+      <h2 class="of-headline">The people <em>behind</em><br>the club.</h2>
+      <p class="of-standfirst">A volunteer committee keeping cricket alive at Rayners Lane.</p>
+
+      <div class="of-divider">
+        <div class="rule"></div>
+        <div class="label">Sports Club</div>
+        <div class="rule"></div>
+      </div>
+      <div class="of-grid of-grid-2">
+        <div class="of-card">
+          <div class="role">Sports Club Chairman</div>
+          <div class="name">Barry Sargent</div>
+        </div>
+        <div class="of-card">
+          <div class="role">Sports Club Secretary</div>
+          <div class="name">Tony Whitcombe</div>
+        </div>
+      </div>
+
+      <div class="of-divider">
+        <div class="rule"></div>
+        <div class="label">Cricket Club</div>
+        <div class="rule"></div>
+      </div>
+      <div class="of-grid of-grid-3">
+        <div class="of-card">
+          <div class="role">Cricket Club Chairman</div>
+          <div class="name">Roy London</div>
+        </div>
+        <div class="of-card">
+          <div class="role">Cricket Club Secretary</div>
+          <div class="name">Mohsin Shafi</div>
+        </div>
+        <div class="of-card">
+          <div class="role">Cricket Club Treasurer</div>
+          <div class="name">Devak Bakhai</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<!-- Masthead template — cloned into each slide so it scales with the canvas -->
+<template id="masthead-tpl">
+  <div class="masthead">
+    <div class="mast-left">
+      <div class="mast-badge"><img src="assets/htcc-badge.png" alt=""></div>
+      <div>
+        <div class="mast-title">The Harrow Town Chronicle</div>
+        <div class="mast-edition">Clubhouse Edition &middot; Vol. I</div>
+      </div>
+    </div>
+    <div class="mast-right">
+      <div class="mast-time clock-time">--:--</div>
+      <div class="mast-date clock-date">--</div>
+    </div>
+  </div>
+</template>
+
+<script src="deck-stage.js"></script>
+<script>
+  // Clone the masthead into every slide so it scales with the deck-stage canvas.
+  const tpl = document.getElementById('masthead-tpl');
+  const stage0 = document.querySelector('deck-stage');
+  if (tpl && stage0) {
+    stage0.querySelectorAll(':scope > section').forEach(sec => {
+      sec.appendChild(tpl.content.cloneNode(true));
+    });
+  }
+
+  function tick() {
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    const dateStr = now.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' }).toUpperCase();
+    document.querySelectorAll('.clock-time').forEach(el => el.textContent = hh + ':' + mm);
+    document.querySelectorAll('.clock-date').forEach(el => el.textContent = dateStr);
+  }
+  tick(); setInterval(tick, 30000);
+
+  const stage = document.querySelector('deck-stage');
+  const SLIDE_MS_DEFAULT = 10000;
+  const SLIDE_MS_COVER = 30000;
+  function currentIndex() {
+    if (!stage) return 0;
+    const slides = stage.querySelectorAll(':scope > section');
+    for (let i = 0; i < slides.length; i++) {
+      if (slides[i].hasAttribute('data-deck-active')) return i;
+    }
+    return 0;
+  }
+  function scheduleNext() {
+    if (!stage || typeof stage.length !== 'number' || stage.length === 0) {
+      setTimeout(scheduleNext, 200); return;
+    }
+    const idx = currentIndex();
+    const wait = (idx === 0) ? SLIDE_MS_COVER : SLIDE_MS_DEFAULT;
+    setTimeout(() => {
+      stage.goTo((currentIndex() + 1) % stage.length);
+      scheduleNext();
+    }, wait);
+  }
+  function startLoop() {
+    if (!stage || typeof stage.goTo !== 'function' || stage.length === 0) {
+      setTimeout(startLoop, 200); return;
+    }
+    scheduleNext();
+  }
+  startLoop();
+
+  const hideOverlay = () => {
+    if (!stage || !stage.shadowRoot) { setTimeout(hideOverlay, 200); return; }
+    const overlay = stage.shadowRoot.querySelector('.overlay');
+    if (overlay) overlay.style.display = 'none';
+    const tapL = stage.shadowRoot.querySelector('.tapzone-left');
+    const tapR = stage.shadowRoot.querySelector('.tapzone-right');
+    if (tapL) tapL.style.pointerEvents = 'none';
+    if (tapR) tapR.style.pointerEvents = 'none';
+  };
+  hideOverlay();
+</script>
+
+</body>
+</html>
