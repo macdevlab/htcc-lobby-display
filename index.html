@@ -289,6 +289,172 @@
     text-transform: uppercase;
   }
 
+  /* ============ 02 — PERFORMANCES OF THE WEEK ============ */
+  .potw-week .inner {
+    display: flex;
+    flex-direction: column;
+    padding: 170px 100px 80px;
+    align-items: center;
+  }
+  .potw-week .top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 36px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .potw-week .top .left { display: flex; flex-direction: column; gap: 12px; }
+  .potw-week .kicker { margin: 0; }
+  .potw-week h2 {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 92px;
+    line-height: 0.92;
+    color: var(--cream);
+    letter-spacing: -2px;
+  }
+  .potw-week h2 em { font-style: italic; color: var(--gold); font-weight: 700; }
+  .potw-week .date-tag {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold-dim);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.4;
+  }
+  .potw-week .date-tag em {
+    display: block;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream);
+    font-size: 32px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .potw-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    width: 100%;
+  }
+  .potw-cell {
+    border: 1px solid var(--hairline);
+    background: rgba(255,247,232,0.02);
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    column-gap: 24px;
+    row-gap: 14px;
+    align-items: start;
+  }
+  .potw-cell.win  { border-top: 4px solid var(--green); }
+  .potw-cell.loss { border-top: 4px solid var(--red); }
+
+  .potw-head {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .potw-head .xi {
+    font-family: var(--mono);
+    font-size: 26px;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .potw-head .opp {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 26px;
+    color: var(--text-secondary);
+  }
+  .potw-head .opp span {
+    color: var(--text-muted);
+    font-style: normal;
+    margin-right: 6px;
+  }
+  .potw-result {
+    grid-row: 1;
+    grid-column: 2;
+    font-family: var(--mono);
+    font-size: 26px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border: 1px solid;
+    justify-self: end;
+    align-self: start;
+  }
+  .potw-cell.win  .potw-result { color: var(--green); border-color: rgba(52,210,120,0.4); }
+  .potw-cell.loss .potw-result { color: var(--red);   border-color: rgba(232,82,74,0.4); }
+
+  .potw-name {
+    grid-row: 2;
+    grid-column: 1;
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 56px;
+    color: var(--cream);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .potw-pts {
+    grid-row: 2;
+    grid-column: 2;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 64px;
+    color: var(--gold);
+    line-height: 1;
+    text-align: right;
+  }
+  .potw-pts small {
+    display: block;
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 24px;
+    color: var(--gold-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .potw-lines {
+    grid-row: 3;
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+  }
+  .potw-lines .row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 18px;
+    align-items: baseline;
+  }
+  .potw-lines .lbl {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .potw-lines .lbl.bat  { color: #4a9de8; }
+  .potw-lines .lbl.bowl { color: var(--green); }
+  .potw-lines .lbl.field{ color: var(--gold); }
+  .potw-lines .fig {
+    font-family: var(--mono);
+    font-size: 26px;
+    color: var(--cream);
+    letter-spacing: 0.5px;
+  }
+
   /* ============ 02 — CONTENTS / IN THIS ISSUE ============ */
   .toc .inner {
     display: grid;
@@ -1336,67 +1502,111 @@
       <div class="cover-eyebrow">Welcome to the 2026 Season</div>
       <div class="cover-title">Harrow Town<br><em>Cricket Club.</em></div>
       <div class="cover-rule"></div>
-      <div class="cover-tag">A new season begins &mdash; Saturday, 9 May 2026 &middot; 12:30pm</div>
+      <div class="cover-tag">Match-week 02 &mdash; Saturday, 16 May 2026 &middot; 12:30pm</div>
     </div>
   </section>
 
-  <!-- 02 — IN THIS ISSUE -->
-  <section data-label="02 Contents" class="toc">
+  <!-- 02 — PERFORMANCES OF THE WEEK -->
+  <section data-label="02 POTW" class="potw-week">
     <div class="inner">
-      <div class="toc-left">
-        <div class="kicker"><span class="dot"></span>This Week</div>
-        <h2 class="deck-headline">A new<br>season <em>begins</em>.</h2>
-        <p class="standfirst">Opening fixtures, the junior section returns and a warm welcome from the clubhouse. Performances of the week will return next edition.</p>
+      <div class="top">
+        <div class="left">
+          <div class="kicker"><span class="dot"></span>Performances of the Week</div>
+          <h2>Four matches, <em>four standouts</em>.</h2>
+        </div>
+        <div class="date-tag">Match-week 01<em>Saturday, 9 May</em></div>
       </div>
-      <div class="toc-list">
-        <div class="toc-row">
-          <span class="toc-num">01</span>
-          <span class="toc-title">Opening <em>Saturday</em></span>
+
+      <div class="potw-grid">
+
+        <div class="potw-cell win">
+          <div class="potw-head">
+            <span class="xi">1st XI</span>
+            <span class="opp"><span>vs</span>Kay Plus CC &middot; Home</span>
+          </div>
+          <span class="potw-result">Won</span>
+          <div class="potw-name">Prayash<br>Singh</div>
+          <div class="potw-pts">137<small>Points</small></div>
+          <div class="potw-lines">
+            <div class="row"><span class="lbl bat">Bat</span><span class="fig">35 (30) &middot; 4&times;4 &middot; 1&times;6 &middot; SR 116.7</span></div>
+            <div class="row"><span class="lbl bowl">Bowl</span><span class="fig">8.4 ov &middot; 40 r &middot; 3 wkts &middot; econ 4.76</span></div>
+          </div>
         </div>
-        <div class="toc-row">
-          <span class="toc-num">02</span>
-          <span class="toc-title">The <em>Junior</em> Section</span>
+
+        <div class="potw-cell loss">
+          <div class="potw-head">
+            <span class="xi">2nd XI</span>
+            <span class="opp"><span>vs</span>Stoke Newington CC &middot; Away</span>
+          </div>
+          <span class="potw-result">Lost</span>
+          <div class="potw-name">Mohsin<br>Shafi</div>
+          <div class="potw-pts">107<small>Points</small></div>
+          <div class="potw-lines">
+            <div class="row"><span class="lbl bat">Bat</span><span class="fig">18 (26) &middot; 2&times;4 &middot; SR 69.2</span></div>
+            <div class="row"><span class="lbl bowl">Bowl</span><span class="fig">9 ov &middot; 27 r &middot; 3 wkts &middot; econ 3.00</span></div>
+          </div>
         </div>
-        <div class="toc-row">
-          <span class="toc-num">03</span>
-          <span class="toc-title">Visit &amp; <em>contact</em></span>
+
+        <div class="potw-cell loss">
+          <div class="potw-head">
+            <span class="xi">3rd XI</span>
+            <span class="opp"><span>vs</span>Harrow CC 3rd XI &middot; Home</span>
+          </div>
+          <span class="potw-result">Lost</span>
+          <div class="potw-name">Mayur<br>Pawar</div>
+          <div class="potw-pts">119<small>Points</small></div>
+          <div class="potw-lines">
+            <div class="row"><span class="lbl bowl">Bowl</span><span class="fig">10.5 ov &middot; 1 m &middot; 40 r &middot; 4 wkts &middot; econ 3.81</span></div>
+            <div class="row"><span class="lbl field">Field</span><span class="fig">1 catch</span></div>
+          </div>
         </div>
-        <div class="toc-row">
-          <span class="toc-num">04</span>
-          <span class="toc-title">Our <em>supporters</em></span>
+
+        <div class="potw-cell loss">
+          <div class="potw-head">
+            <span class="xi">4th XI</span>
+            <span class="opp"><span>vs</span>Kay Plus CC 3rd XI &middot; Away</span>
+          </div>
+          <span class="potw-result">Lost</span>
+          <div class="potw-name">Jebin<br>Raja</div>
+          <div class="potw-pts">85<small>Points</small></div>
+          <div class="potw-lines">
+            <div class="row"><span class="lbl bowl">Bowl</span><span class="fig">5 ov &middot; 38 r &middot; 3 wkts &middot; econ 7.60</span></div>
+            <div class="row"><span class="lbl field">Field</span><span class="fig">1 catch</span></div>
+          </div>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- 03 — OPENING SATURDAY (FIXTURES) -->
-  <section data-label="03 Opening Saturday" class="matchweek">
+  <!-- 03 — THIS SATURDAY (FIXTURES) -->
+  <section data-label="03 This Saturday" class="matchweek">
     <div class="inner">
       <div class="mw-left">
         <div class="kicker"><span class="dot"></span>Saturday Cricket</div>
-        <div class="mw-num">Opening<br><em>Day.</em></div>
-        <div class="mw-date">Saturday, 9 May 2026 &middot; 12:30pm</div>
+        <div class="mw-num">Match-<em>week</em><br>02.</div>
+        <div class="mw-date">Saturday, 16 May 2026 &middot; 12:30pm</div>
       </div>
       <div class="mw-card-stack">
         <div class="mw-row">
           <span class="mw-xi">1st XI</span>
-          <span class="mw-vs"><span>vs</span>Kay Plus CC</span>
-          <span class="mw-res" style="color:var(--gold); border-color: rgba(201,168,76,0.4);">Home</span>
-        </div>
-        <div class="mw-row">
-          <span class="mw-xi">2nd XI</span>
-          <span class="mw-vs"><span>vs</span>Stoke Newington CC</span>
+          <span class="mw-vs"><span>vs</span>SKLPC CC</span>
           <span class="mw-res" style="color:var(--cream-dim); border-color: var(--hairline);">Away</span>
         </div>
         <div class="mw-row">
-          <span class="mw-xi">3rd XI</span>
+          <span class="mw-xi">2nd XI</span>
           <span class="mw-vs"><span>vs</span>Harrow CC</span>
           <span class="mw-res" style="color:var(--gold); border-color: rgba(201,168,76,0.4);">Home</span>
         </div>
         <div class="mw-row">
-          <span class="mw-xi">4th XI</span>
-          <span class="mw-vs"><span>vs</span>Kay Plus CC</span>
+          <span class="mw-xi">3rd XI</span>
+          <span class="mw-vs"><span>vs</span>Perivale Phoenicians CC</span>
           <span class="mw-res" style="color:var(--cream-dim); border-color: var(--hairline);">Away</span>
+        </div>
+        <div class="mw-row">
+          <span class="mw-xi">4th XI</span>
+          <span class="mw-vs"><span>vs</span>Twickenham CC</span>
+          <span class="mw-res" style="color:var(--gold); border-color: rgba(201,168,76,0.4);">Home</span>
         </div>
       </div>
     </div>
@@ -1407,7 +1617,7 @@
       <div class="jed-left">
         <div class="kicker"><span class="dot"></span>The Junior Section</div>
         <h2 class="jed-headline">For the <em>juniors</em><br>of the club.</h2>
-        <p class="jed-body">Three age groups out on the square this season &mdash; U10, U11 and U13. Sunday-morning coaching for all abilities, weekday evening fixtures and a club happy to welcome newcomers. For more, write to <span style="color:var(--gold); white-space:nowrap;">harrowtowncc@gmail.com</span>.</p>
+        <p class="jed-body"><span style="color:var(--gold); font-weight:700;">This week, all three junior sides won.</span> Three age groups out on the square this season &mdash; U10, U11 and U13. Sunday-morning coaching for all abilities, weekday evening fixtures and a club happy to welcome newcomers. For more, write to <span style="color:var(--gold); white-space:nowrap;">harrowtowncc@gmail.com</span>.</p>
         <div class="jed-cta">All Welcome &middot; New Players Encouraged</div>
       </div>
       <div class="jed-card">
